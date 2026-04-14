@@ -69,3 +69,27 @@ By applying appropriate techniques such as dropping, masking, generalization, an
 ```python
 import os
 API_KEY = os.getenv("API_KEY")
+```
+
+---
+
+### Violation 2: Excessive Data Collection (TOS Violation)
+
+- **Problem:** The script fetches 100 pages of data without verifying necessity. This may violate API Terms of Service and goes against the principle of data minimization.  
+
+- **Solution:** Limit the number of pages requested and stop fetching when no data is returned.  
+
+```python
+import requests
+
+records = []
+
+for page in range(1, 11):  # limit data collection
+    response = requests.get(API_URL, params={"page": page, "key": API_KEY})
+    data = response.json()
+
+    if not data.get("results"):
+        break
+
+    records.extend(data["results"])
+```
